@@ -1,0 +1,16 @@
+Package: stageFreq
+Type: Package
+Title: Estimate stage duration distributions and mortality rates from stage frequency data using MCMC
+Version: 0.0.1
+Date: 2015-05-02
+Author: Jonas Knape
+Maintainer: Jonas Knape <jonas.knape@slu.se>
+Description: The package implements Monte Carlo and numerical likelihoods for stage frequency, or, 
+             cohort data. Stage frequency data are collected by following a cohort over time and 
+             assessing the numbers of individuals in different stagesat a set of time points. 
+             To estimate parameters for models of such data, an adaptive MCMC sampler is 
+             implemented. The sampler can be used in combination with the stochastic and numerical 
+             likelihoods to provide Bayesian estimates of parameters. 
+License: GPL (>= 2)
+Imports: Rcpp (>= 0.11.5), coda, methods
+LinkingTo: Rcpp
