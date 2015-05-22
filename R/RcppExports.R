@@ -13,7 +13,3 @@ stageFreqMC <- function(sampleTimes, sDur, mortRate) {
     .Call('stageFreq_stageFreqMC', PACKAGE = 'stageFreq', sampleTimes, sDur, mortRate)
 }
 
-rcpp_hello_world <- function() {
-    .Call('stageFreq_rcpp_hello_world', PACKAGE = 'stageFreq')
-}
-
