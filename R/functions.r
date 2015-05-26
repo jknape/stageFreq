@@ -373,7 +373,7 @@ simMNCohort = function(sampleTimes, N0, rStageDur, mortRate, Narg, ...) {
 ##' ## Fit model
 ##' inits = c(10,10,10,1,.001) 
 ##' names(inits) = c(paste0("mu", 1:3), "cv", "mr")
-##' mcmc = adaptiveMCMC(inits, exLogLik, exLogPrior, nIter = 1000, nThin = 10, 
+##' mcmc = adMCMC(inits, exLogLik, exLogPrior, nIter = 1000, nThin = 10, 
 ##'                     data = cdata, nSim = 1000)
 ##' plot(mcmc)
 ##' }

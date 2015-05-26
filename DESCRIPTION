@@ -11,6 +11,6 @@ Description: The package implements Monte Carlo and numerical likelihoods for st
              To estimate parameters for models of such data, an adaptive MCMC sampler is 
              implemented. The sampler can be used in combination with the stochastic and numerical 
              likelihoods to provide Bayesian estimates of parameters. 
-License: GPL (>= 2)
+License: GPL (>= 3)
 Imports: Rcpp (>= 0.11.5), coda, methods
 LinkingTo: Rcpp
