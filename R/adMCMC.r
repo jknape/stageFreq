@@ -77,7 +77,7 @@ setRefClass(Class = "MCMC",
               }
               ,
               getChain = function() {
-                invisible(as.mcmc(.chain))
+                invisible(.chain)
               }
             )
 )
@@ -162,68 +162,3 @@ setRefClass(Class = "adrwMCMC",
             ),
             contains = "adMCMC"
 )
-
-setRefClass(Class = "adrwMCMC2",
-            fields = c(".chVar", ".parBlocks", ".idPropProb", ".idVarScale", ".varScale", ".rescaleStep", ".updType", ".S", ".rn",".bind"),
-            methods = list(
-              initialize = function(blocks = NULL, idProb = .05, idVarScale = 0.01^2, varScale = 2.38^2,...) {
-                callSuper(...)
-                .chVar <<- chol(.1 * diag(.nPar))
-                if (is.null(blocks)){
-                  .parBlocks <<- rep(1, .nPar)
-                } else {
-                  if (length(blocks) != .nPar)
-                    stop("Length of blocks not equal to number of parameters")
-                  .parBlocks <<- blocks
-                }
-                .idPropProb <<- idProb
-                .idVarScale <<- idVarScale
-                #.varScale <<- varScale
-                .updType <<- integer(length(.accepted))
-                .bind <<- NULL
-                .S <<- idVarScale * diag(.nPar)
-              },
-              getProposal = function(block = NULL) {
-                if (!.propSet) {
-                  if (.ichain %in% .adSchedule & .iteration %% .thin == 0) {
-                     # print(.S)
-                  }
-                  .updType[.iteration] <<- 1
-                  if (is.null(block)) {
-                      .rn <<- rt(.nPar, df = 4)
-                      .proposal <<- .current + t(.S %*% matrix(.rn, ncol = 1))
-                      
-                  } else {
-                    .bind <<- which(.parBlocks == block)
-                    .rn <<- rt(length(.bind), df = 4)
-                    .proposal <<- .current
-                    .proposal[.bind] <<- .current[.bind] + t(.S[.bind,.bind] %*% matrix(.rn, ncol = 1))
-                  } 
-                  .propSet <<- TRUE
-                }
-                callSuper()
-              },
-              acceptProposal = function(accepted, logLik = NULL, logPrior = NULL, accP = NULL) {
-                callSuper(accepted, logLik, logPrior)
-                if (is.null(.bind)) {
-                  if (.ichain > 1000) {
-                  .S <<- tryCatch(t(chol(.S %*% (diag(.nPar) + (.iteration * 1000 / (.thin * nrow(.chain))) ^ (-1/2) * (accP - .25) * .rn %*% t(.rn) / sum(.rn^2)) %*% t(.S))),
-                                error = function(e) {.S})
-                  
-                  } else if (.nAccept > 30) {
-                    v = apply(.chain[max(1, round(.1 * .ichain)):.ichain, , drop = FALSE], 2, sd)
-                    .S <<- sqrt(.idVarScale) * diag(v)
-                  }
-                } else {
-                  .S[.bind, .bind] <<- tryCatch(t(chol(.S[.bind,.bind] %*% 
-                                                       (diag(length(.bind)) + (.iteration * 1000 / (.thin * nrow(.chain))) ^ (-1/2) * (accP - .25) * .rn %*% t(.rn) / sum(.rn^2)) %*% 
-                                                       t(.S[.bind, .bind]))),
-                                              error = function(e) {.S[.bind, .bind]})
-                }
-                #if (.iteration == 10000)
-                 # browser()
-              }
-            ),
-            contains = "adMCMC"
-)
-

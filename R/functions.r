@@ -260,6 +260,8 @@ stageFreqN = function(sampleTimes, dDur, mortRate, grid) {
   nStage = ncol(dDur)
   nGrid = length(grid)
   nSamp = length(sampleTimes)
+  if (grid[nGrid] < sampleTimes[nSamp])
+    stop("End point of grid smaller than latest sampling time. Extend grid.")
   fout = matrix(ncol = nStage, nrow = nSamp)
   P = matrix(ncol = nStage, nrow = nGrid)
   f = matrix(ncol = nStage, nrow = nGrid)
