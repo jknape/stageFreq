@@ -1,6 +1,6 @@
 # stageFreq
 
-An R package for fitting Bayesian models of population stage frequency data using MCMC. The methods are detailed in [Knape and de Valpineb (2016)](http://onlinelibrary.wiley.com/doi/10.1890/15-0942.1/abstract)
+An R package for fitting Bayesian models of population stage frequency data using MCMC. The methods are detailed in [Knape and de Valpine (2016)](http://onlinelibrary.wiley.com/doi/10.1890/15-0942.1/abstract)
 
 ## Installation
 
